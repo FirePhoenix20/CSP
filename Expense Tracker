@@ -1,9 +1,10 @@
-budget = str(input("Current budget:"))
-amtExpense = int(input("Amount of expenses:"))
+budget = int(input("Current budget: "))
+amtExpense = int(input("Amount of expenses: "))
+
 for i in range(amtExpense):
-    Expense = str(input("Type expense amount:"))
-    if Expense < budget:
-        print("Amount left will be", budget - Expense)
-    
-    elif Expense >= budget:
+    Expense = int(input("Type expense amount: "))
+    if Expense <= budget:
+        budget -= Expense
+        print("Amount left will be", budget)
+    else:
         print("Expense exceeds budget. Not affordable.")
