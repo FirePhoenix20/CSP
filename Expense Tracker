@@ -6,5 +6,9 @@ for i in range(amtExpense):
     if Expense <= budget:
         budget -= Expense
         print("Amount left will be", budget)
+        print("Total amount of expenses:", amtExpense)
+        print("Total amount of money spent:", budget - Expense)
     else:
-        print("Expense exceeds budget. Not affordable.")
+        print("❗ Expense exceeds budget. Not affordable.")
+        break
+        print("Total amount of expenses:", amtExpense)
