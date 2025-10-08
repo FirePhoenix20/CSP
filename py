@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "replace_this_with_a_real_secret_key"
@@ -47,6 +47,7 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    error = None
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -55,10 +56,9 @@ def login():
             session["user"] = username
             return f"✅ Login successful! Welcome, {username}."
         else:
-            flash("❌ Invalid username or password.")
-            return redirect(url_for("login"))
+            error = "Incorrect credentials"
 
-    return render_template("login.html")
+    return render_template("login.html", error=error)
 
 @app.route("/create_account.html", methods=["GET", "POST"])
 def create_account():
@@ -67,11 +67,9 @@ def create_account():
         password = request.form["password"]
 
         if add_user(username, password):
-            flash("✅ Account created successfully!")
             return redirect(url_for("login"))
         else:
-            flash("⚠️ Username already exists. Try another.")
-            return redirect(url_for("create_account"))
+            return "<h3 style='color:red;'>Username already exists. Try another.</h3>"
 
     return '''
     <form method="POST">
@@ -84,5 +82,5 @@ def create_account():
     '''
 
 if __name__ == "__main__":
-    init_db()  # ensure the DB + table exists
+    init_db()
     app.run(debug=True)
