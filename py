@@ -1,34 +1,51 @@
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 
-def main():
-    accounts = {}
+app = Flask(__name__)
+app.secret_key = "replace_this_with_a_real_secret_key"  # Required for sessions/flash messages
 
-    while True:
-        action = input("Would you like to (1) Create an account or (2) Sign in? (Enter 1 or 2): ")
+# Temporary in-memory user storage
+accounts = {}
 
-        if action == '1':
-            create_account(accounts)
-        elif action == '2':
-            sign_in(accounts)
+@app.route("/")
+def home():
+    return redirect(url_for("login"))
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username in accounts and accounts[username] == password:
+            session["user"] = username
+            return f"Welcome, {username}! You are logged in."
         else:
-            print("Invalid option. Please try again.")
+            flash("Invalid username or password.")
+            return redirect(url_for("login"))
+    return render_template("login.html")
 
-def create_account(accounts):
-    username = input("Enter a username: ")
-    if username in accounts:
-        print("Username already exists. Please choose a different username.")
-    else:
-        password = input("Enter a password: ")
-        accounts[username] = password
-        print("Account created successfully!")
+@app.route("/create_account.html", methods=["GET", "POST"])
+def create_account():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
-def sign_in(accounts):
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-
-    if username in accounts and accounts[username] == password:
-        print("Login successful!")
-    else:
-        print("Invalid username or password.")
+        if username in accounts:
+            flash("Username already exists.")
+            return redirect(url_for("create_account"))
+        else:
+            accounts[username] = password
+            flash("Account created successfully!")
+            return redirect(url_for("login"))
+    return '''
+    <form method="POST">
+        <label>New Username:</label><br>
+        <input type="text" name="username" required><br>
+        <label>New Password:</label><br>
+        <input type="password" name="password" required><br>
+        <button type="submit">Create Account</button>
+    </form>
+    '''
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
