@@ -19,6 +19,7 @@
             padding: 20px;
             border-radius: 22px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
         label {
             display: block;
@@ -55,6 +56,12 @@
             opacity: 0.5;
             border: 2px solid #ffffff;
         }
+        .error {
+            color: #ff6b6b; /* soft red */
+            opacity: 0.7;
+            font-size: 14px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +74,10 @@
 
         <button type="submit">Sign In</button>
         <button type="button" onclick="window.location.href='/create_account.html'">Create New Account</button>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
     </form>
 </body>
 </html>
