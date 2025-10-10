@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
+         body {
             font-family: 'Roboto', sans-serif;
             background-color: #121212;
             display: flex;
@@ -13,14 +13,27 @@
             height: 100vh;
             margin: 0;
             color: #ffffff;
+            flex-direction: column; // BEGIN:
         }
         form {
             background: #292929;
             padding: 20px;
             border-radius: 22px;
+            width: 400px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            text-align: center;
         }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center; // END:
+            margin-bottom: 700px;
+            color: #06ebb9;
+        }
+
         label {
             display: block;
             margin-bottom: 10px;
@@ -37,6 +50,11 @@
             background-color: #2a2a2a;
             color: #ffffff;
         }
+
+        input:focus {
+                        border: 1px solid #06ebb9;
+                        outline: none;
+                    }
         button {
             width: 100%;
             padding: 10px;
@@ -50,21 +68,24 @@
             transition: all 0.5s ease;
         }
         button[type="button"] {
-            background-color: #c0c0c0;
+            background-color: #999999;
         }
         button:hover {
             opacity: 0.5;
             border: 2px solid #ffffff;
         }
+
         .error {
-            color: #ff6b6b; /* soft red */
-            opacity: 0.7;
-            font-size: 14px;
+            color: #ff4c4c;
             margin-top: 10px;
+            text-align: center;
+            transition: all 0.5s ease;
         }
+ 
     </style>
 </head>
 <body>
+    <h1>Login To Convo Academic Planner</h1>
     <form action="/login" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br>
