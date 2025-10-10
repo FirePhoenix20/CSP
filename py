@@ -58,7 +58,7 @@ def login():
         else:
             error = "Incorrect credentials"
 
-    return render_template("login.html", error=error)
+    return render_template("Login.html", error=error)
 
 @app.route("/create_account.html", methods=["GET", "POST"])
 def create_account():
@@ -74,61 +74,75 @@ def create_account():
             <head>
                 <style>
                     body {
-                        background-color: #121212;
-                        font-family: 'Roboto', sans-serif;
-                        color: #ffffff;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        margin: 0;
-                    }
-                    form {
-                        background: #292929;
-                        padding: 25px;
-                        border-radius: 22px;
-                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-                        text-align: center;
-                        width: 300px;
-                    }
-                    label {
-                        display: block;
-                        margin-bottom: 10px;
-                        color: #e0e0e0;
-                        font-size: 15px;
-                        text-align: left;
-                    }
-                    input[type="text"],
-                    input[type="password"] {
-                        width: 90%;
-                        padding: 10px;
-                        margin-bottom: 15px;
-                        border: 1px solid #444;
-                        border-radius: 14px;
-                        background-color: #2a2a2a;
-                        color: #ffffff;
-                        transition: all 0.3s ease;
-                    }
-                    input:focus {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #ffffff;
+            flex-direction: column; // BEGIN:
+        }
+        form {
+            background: #292929;
+            padding: 20px;
+            border-radius: 22px;
+            width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center; // END:
+            margin-bottom: 700px;
+            color: #06ebb9;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 93%;
+            transition: all 0.5s ease;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 14px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
+        input:focus {
                         border: 1px solid #06ebb9;
                         outline: none;
                     }
-                    button {
-                        width: 100%;
-                        padding: 10px;
-                        border: none;
-                        border-radius: 20px;
-                        background-color: #06ebb9;
-                        color: #000000;
-                        font-size: 16px;
-                        cursor: pointer;
-                        transition: all 0.4s ease;
-                        margin-top: 5px;
-                    }
-                    button:hover {
-                        opacity: 0.6;
-                        border: 2px solid #ffffff;
-                    }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #44444467;
+            border-radius: 20px;
+            background-color: #06ebb9;
+            color: rgb(0, 0, 0);
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.5s ease;
+        }
+        button[type="button"] {
+            background-color: #999999;
+        }
+        button:hover {
+            opacity: 0.5;
+            border: 2px solid #ffffff;
+        }
                     .error {
                         color: #ff6b6b;
                         opacity: 0.7;
@@ -246,7 +260,6 @@ def create_account():
     </body>
     </html>
     '''
-
 
 if __name__ == "__main__":
     init_db()
