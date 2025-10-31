@@ -75,7 +75,7 @@ def create_account():
                 <style>
                     body {
             font-family: 'Roboto', sans-serif;
-            background-color: #121212;
+            background-color: #292929;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -121,7 +121,7 @@ def create_account():
         }
 
         input:focus {
-                        border: 1px solid #06ebb9;
+                        border: 1px solid #2ee709;
                         outline: none;
                     }
         button {
@@ -129,7 +129,7 @@ def create_account():
             padding: 10px;
             border: 2px solid #44444467;
             border-radius: 20px;
-            background-color: #06ebb9;
+            background-color: #2ee709;
             color: rgb(0, 0, 0);
             font-size: 16px;
             cursor: pointer;
@@ -152,7 +152,7 @@ def create_account():
                     a {
                         display: block;
                         margin-top: 15px;
-                        color: #06ebb9;
+                        color: #00ff73;
                         text-decoration: none;
                         font-size: 14px;
                     }
