@@ -76,14 +76,13 @@ def create_account():
                     body {
             font-family: 'Roboto', sans-serif;
             background-color: #292929;
-            background: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             color: #ffffff;
-            flex-direction: column; 
+            flex-direction: column; // BEGIN:
         }
         form {
             background: #292929;
