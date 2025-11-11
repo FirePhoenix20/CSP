@@ -52,9 +52,18 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
+        # check if username exists (for distinct message)
+        conn = sqlite3.connect("details.db")
+        c = conn.cursor()
+        c.execute("SELECT 1 FROM users WHERE username = ?", (username,))
+        user_exists = c.fetchone() is not None
+        conn.close()
+
         if verify_user(username, password):
             session["user"] = username
             return f"✅ Login successful! Welcome, {username}."
+        elif not user_exists:
+            error = "Create an account"
         else:
             error = "Incorrect credentials"
 
@@ -75,7 +84,7 @@ def create_account():
                 <style>
                     body {
             font-family: 'Roboto', sans-serif;
-            background-color: #292929;
+            background-color: rgb(3, 3, 3);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -85,11 +94,12 @@ def create_account():
             flex-direction: column; // BEGIN:
         }
         form {
-            background: #292929;
-            padding: 20px;
-            border-radius: 22px;
+            background: rgba(31, 31, 31, 0.9);
+            padding: 30px;
+            border-radius: 25px;
+            border: 3px solid #272727;
             width: 400px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
         
         h2 {
@@ -110,18 +120,19 @@ def create_account():
         }
         input[type="text"],
         input[type="password"] {
-            width: 93%;
-            transition: all 0.5s ease;
+            width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #444;
-            border-radius: 14px;
-            background-color: #2a2a2a;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            border: 2px solid #353535;
+            border-radius: 25px;
+            background-color: #222222;
             color: #ffffff;
+            transition: border-color 0.3s;
         }
 
         input:focus {
-                        border: 1px solid #2ee709;
+                        border: 2px solid #555555;
                         outline: none;
                     }
         button {
@@ -129,19 +140,17 @@ def create_account():
             padding: 10px;
             border: 2px solid #44444467;
             border-radius: 20px;
-            background-color: #2ee709;
-            color: rgb(0, 0, 0);
-            font-size: 16px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: all 0.5s ease;
+            background-color: #222222;
+            color: #ffffff;
+            border: 2px solid #353535;
+            margin-top: 10px;
         }
         button[type="button"] {
             background-color: #999999;
         }
         button:hover {
-            opacity: 0.5;
-            border: 2px solid #ffffff;
+            background-color: #373737;
+            box-shadow: 0 4px 30px #373737a0;
         }
                     .error {
                         color: #ff6b6b;
@@ -152,7 +161,7 @@ def create_account():
                     a {
                         display: block;
                         margin-top: 15px;
-                        color: #00ff73;
+                        color: #ffffff;
                         text-decoration: none;
                         font-size: 14px;
                     }
@@ -181,7 +190,7 @@ def create_account():
     <head>
         <style>
             body {
-                background-color: #121212;
+                background-color: rgb(3, 3, 3);
                 font-family: 'Roboto', sans-serif;
                 color: #ffffff;
                 display: flex;
@@ -191,12 +200,19 @@ def create_account():
                 margin: 0;
             }
             form {
-                background: #292929;
-                padding: 25px;
-                border-radius: 22px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+                background: rgba(31, 31, 31, 0.9);
+                padding: 30px;
+                border-radius: 25px;
+                border: 3px solid #272727;
+                width: 400px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            
+            h1 {
                 text-align: center;
-                width: 300px;
+                margin-bottom: 20px;
+                color: #ffffff;
+            }
+
             }
             label {
                 display: block;
@@ -207,39 +223,41 @@ def create_account():
             }
             input[type="text"],
             input[type="password"] {
-                width: 90%;
+                width: 100%;
                 padding: 10px;
                 margin-bottom: 15px;
-                border: 1px solid #444;
+                border: 2px solid #353535;
                 border-radius: 14px;
                 background-color: #2a2a2a;
                 color: #ffffff;
                 transition: all 0.3s ease;
             }
             input:focus {
-                border: 1px solid #06ebb9;
+                border: 2px solid #555555;
                 outline: none;
             }
             button {
                 width: 100%;
-                padding: 10px;
+                padding: 12px;
                 border: none;
-                border-radius: 20px;
-                background-color: #06ebb9;
-                color: #000000;
+                border-radius: 25px;
+                background-color: #5625c9;
+                color: #ffffff;
                 font-size: 16px;
                 cursor: pointer;
-                transition: all 0.4s ease;
-                margin-top: 5px;
+                margin-top: 50px;
+                margin-bottom: 10px;
+                transition: background-color 0.3s;
             }
             button:hover {
-                opacity: 0.6;
-                border: 2px solid #ffffff;
+                background-color: #6a3cd4;
+                box-shadow: 0 4px 30px #6a3cd4a0;);
             }
             a {
+                text-align: center;
                 display: block;
                 margin-top: 15px;
-                color: #06ebb9;
+                color: #ffffff;
                 text-decoration: none;
                 font-size: 14px;
             }
@@ -249,6 +267,7 @@ def create_account():
         </style>
     </head>
     <body>
+        <h1>Create Account</h1>
         <form method="POST">
             <label>New Username:</label>
             <input type="text" name="username" required><br>
