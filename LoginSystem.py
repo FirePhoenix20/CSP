@@ -77,118 +77,21 @@ def create_account():
 
         if add_user(username, password):
             return redirect(url_for("login"))
-        else:
-            return '''
-            <html>
-            <head>
-                <style>
-                    body {
-            font-family: 'Roboto', sans-serif;
-            background-color: rgb(3, 3, 3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #ffffff;
-            flex-direction: column; // BEGIN:
-        }
-        form {
-            background: rgba(31, 31, 31, 0.9);
-            padding: 30px;
-            border-radius: 25px;
-            border: 3px solid #272727;
-            width: 400px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            text-align: center; // END:
-            margin-bottom: 700px;
-            color: #06ebb9;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #e0e0e0;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            margin-right: 10px;
-            border: 2px solid #353535;
-            border-radius: 25px;
-            background-color: #222222;
-            color: #ffffff;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-                        border: 2px solid #555555;
-                        outline: none;
-                    }
-        button {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #44444467;
-            border-radius: 20px;
-            background-color: #222222;
-            color: #ffffff;
-            border: 2px solid #353535;
-            margin-top: 10px;
-        }
-        button[type="button"] {
-            background-color: #999999;
-        }
-        button:hover {
-            background-color: #373737;
-            box-shadow: 0 4px 30px #373737a0;
-        }
-                    .error {
-                        color: #ff6b6b;
-                        opacity: 0.7;
-                        font-size: 14px;
-                        margin-top: 10px;
-                    }
-                    a {
-                        display: block;
-                        margin-top: 15px;
-                        color: #ffffff;
-                        text-decoration: none;
-                        font-size: 14px;
-                    }
-                    a:hover {
-                        text-decoration: underline;
-                    }
-                </style>
-            </head>
-            <body>
-                <form method="POST">
-                    <label>New Username:</label>
-                    <input type="text" name="username" required><br>
-                    <label>New Password:</label>
-                    <input type="password" name="password" required><br>
-                    <button type="submit">Create Account</button>
-                    <div class="error">⚠️ Username already exists. Try another.</div>
-                    <a href="/login">Back to Login</a>
-                </form>
-            </body>
-            </html>
-            '''
+        return render_template("username_exists.html", error="Username already exists")
 
     # Normal (non-error) page
     return '''
     <html>
     <head>
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @font-face {
+            font-family: 'Inter'; /* Give your font a name */
+            src: url('../fonts/MyCustomFont.woff2') format('woff2'), /* Path to your font file */
+                 url('../fonts/MyCustomFont.woff') format('woff');
+            font-weight: normal; /* Define font weight if applicable */
+            font-style: normal; /* Define font style if applicable */
+            }
             body {
                 background-color: rgb(3, 3, 3);
                 font-family: 'Roboto', sans-serif;
@@ -198,6 +101,7 @@ def create_account():
                 align-items: center;
                 height: 100vh;
                 margin: 0;
+                flex-direction: column;
             }
             form {
                 background: rgba(31, 31, 31, 0.9);
@@ -208,13 +112,15 @@ def create_account():
                 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             
             h1 {
+                font-family: 'Inter', sans-serif;
                 text-align: center;
-                margin-bottom: 20px;
+                top: 10px;
                 color: #ffffff;
             }
 
             }
             label {
+                font-family: 'Inter', sans-serif;
                 display: block;
                 margin-bottom: 10px;
                 color: #e0e0e0;
@@ -223,20 +129,23 @@ def create_account():
             }
             input[type="text"],
             input[type="password"] {
+                font-family: 'Inter', sans-serif;
                 width: 100%;
                 padding: 10px;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
+                margin-right: 10px;
                 border: 2px solid #353535;
-                border-radius: 14px;
-                background-color: #2a2a2a;
+                border-radius: 25px;
+                background-color: #222222;
                 color: #ffffff;
-                transition: all 0.3s ease;
+                transition: border-color 0.3s;
             }
             input:focus {
                 border: 2px solid #555555;
                 outline: none;
             }
             button {
+                font-family: 'Inter', sans-serif;
                 width: 100%;
                 padding: 12px;
                 border: none;
@@ -249,11 +158,20 @@ def create_account():
                 margin-bottom: 10px;
                 transition: background-color 0.3s;
             }
+
+            button[type="button"] {
+            background-color: #222222;
+            color: #ffffff;
+            border: 2px solid #353535;
+            margin-top: 10px;
+            }
+
             button:hover {
                 background-color: #6a3cd4;
                 box-shadow: 0 4px 30px #6a3cd4a0;);
             }
             a {
+                font-family: 'Inter', sans-serif;
                 text-align: center;
                 display: block;
                 margin-top: 15px;
