@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Login to Convo</title>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-         body {
-            font-family: 'Roboto', sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @font-face {
+            font-family: 'Inter'; /* Give your font a name */
+            src: url('../fonts/MyCustomFont.woff2') format('woff2'), /* Path to your font file */
+                 url('../fonts/MyCustomFont.woff') format('woff');
+            font-weight: normal; /* Define font weight if applicable */
+            font-style: normal; /* Define font style if applicable */
+        }
+        body {
+            font-family: 'Inter', sans-serif; /* Use the imported font */
             background-image: url('bg.png');
-            font-weight: lighter;
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -16,8 +22,8 @@
             height: 100vh;
             margin: 0;
             color: #333;
-            flex-direction: column;
             background: rgb(3, 3, 3);
+            flex-direction: column;
         }
         form {
             background: rgba(31, 31, 31, 0.9);
@@ -29,26 +35,28 @@
         }
         
         h2 {
+            font-family: 'Inter', sans-serif;
             text-align: center;
             margin-bottom: 20px;
-            color: #5625c9;
+            color: #1f77c9;
         }
 
         h1 {
+            font-family: 'Inter', sans-serif;
             text-align: center;
             margin-bottom: 20px;
             color: #ffffff;
         }
 
         label {
+            font-family: 'Inter', sans-serif;
             display: block;
             margin-bottom: 8px;
             color: #ffffff;
         }
         input[type="text"],
         input[type="password"] {
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
+            font-family: 'Inter', sans-serif;
             width: 94.5%;
             padding: 10px;
             margin-bottom: 10px;
@@ -65,6 +73,7 @@
             outline: none;
         }
         button {
+            font-family: 'Inter', sans-serif;
             width: 100%;
             padding: 12px;
             border: none;
@@ -76,7 +85,6 @@
             margin-top: 25px;
             margin-bottom: 10px;
             transition: background-color 0.3s;
-            font-family: 'Roboto', sans-serif;
         }
         button[type="button"] {
             background-color: #222222;
@@ -101,23 +109,29 @@
             transition: all 0.5s ease;
         }
  
-    </style>
-</head>
-<body>
-    <h1>Login To Convo</h1>
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
+        </style>
+        <style>
+            body {
+                background-image: url('bg.png'); /* Assigning bg.png as the background */
+                background-size: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Login To Convo</h1>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
 
-        <button type="submit">Sign In</button>
-        <button type="button" onclick="window.location.href='/create_account.html'">Create New Account</button>
+            <button type="submit">Sign In</button>
+            <button type="button" onclick="window.location.href='/create_account.html'">Create New Account</button>
 
-        {% if error %}
-            <div class="error">{{ error }}</div>
-        {% endif %}
-    </form>
-</body>
-</html>
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+        </form>
+    </body>
+    </html>
