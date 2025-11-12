@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @font-face {
+            font-family: 'Inter'; /* Give your font a name */
+            src: url('../fonts/MyCustomFont.woff2') format('woff2'), /* Path to your font file */
+                 url('../fonts/MyCustomFont.woff') format('woff');
+            font-weight: normal; /* Define font weight if applicable */
+            font-style: normal; /* Define font style if applicable */
+        }       
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: rgb(3, 3, 3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #ffffff;
+                flex-direction: column;
+            }
+            form {
+                background: rgba(31, 31, 31, 0.9);
+                padding: 30px;
+                border-radius: 25px;
+                border: 3px solid #272727;
+                width: 400px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-family: 'Inter', sans-serif;
+                text-align: center;
+                margin-bottom: 700px;
+                color: #5625c9;
+            }
+
+        label {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+        input[type="text"],
+        input[type="password"] {
+            font-family: 'Inter', sans-serif;;
+            width: 94.5%;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            border: 2px solid #353535;
+            border-radius: 25px;
+            background-color: #222222;
+            color: #ffffff;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border: 2px solid #555555;
+            outline: none;
+        }
+
+        button {
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #353535;
+            border-radius: 25px;
+            background-color: #222222;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        button[type="button"] {
+            background-color: #222222;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #373737;
+            box-shadow: 0 4px 30px #373737a0;
+        }
+                    .error {
+                        color: #ff6b6b;
+                        opacity: 0.7;
+                        font-size: 14px;
+                        margin-top: 10px;
+                    }
+                    a {
+                        font-family: 'Inter', sans-serif;
+                        display: block;
+                        margin-top: 15px;
+                        color: #ffffff;
+                        text-decoration: none;
+                        font-size: 14px;
+                    }
+                    a:hover {
+                        text-decoration: underline;
+                    }
+                </style>
+            </head>
+            <body>
+                <form method="POST">
+                    <label>New Username:</label>
+                    <input type="text" name="username" required aria-label="New Username"><br>
+                    <label>New Password:</label>
+                    <input type="password" name="password" required aria-label="New Password"><br>
+                    <button type="submit">Create Account</button>
+                    <div class="error">⚠️ Username already exists. Try another.</div>
+                    <a href="/login">Back to Login</a>
+                </form>
+            </body>
+            </html>
