@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Convo - Create Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
@@ -40,8 +41,8 @@
             h1 {
                 font-family: 'Inter', sans-serif;
                 text-align: center;
-                margin-bottom: 700px;
-                color: #5625c9;
+                top: 10px;
+                color: #ffffff;
             }
 
         label {
@@ -73,9 +74,9 @@
             font-family: 'Inter', sans-serif;
             width: 100%;
             padding: 12px;
-            border: 2px solid #353535;
+            border: none;
             border-radius: 25px;
-            background-color: #222222;
+            background-color: #5625c9;
             color: #ffffff;
             font-size: 16px;
             cursor: pointer;
@@ -89,15 +90,23 @@
             margin-top: 10px;
         }
         button:hover {
-            background-color: #373737;
-            box-shadow: 0 4px 30px #373737a0;
+            background-color: #6a3cd4;
+            box-shadow: 0 4px 30px #6a3cd4a0;
         }
                     .error {
                         color: #ff6b6b;
                         opacity: 0.7;
                         font-size: 14px;
                         margin-top: 10px;
+                        text-align: center;
+                        transition: all 0.5s ease;
                     }
+
+                    div {
+                        font-family: 'Inter', sans-serif;
+                        color: #ff4c4c;
+                    }
+
                     a {
                         font-family: 'Inter', sans-serif;
                         display: block;
@@ -112,6 +121,7 @@
                 </style>
             </head>
             <body>
+                <h1>Create Account</h1>
                 <form method="POST">
                     <label>New Username:</label>
                     <input type="text" name="username" required aria-label="New Username"><br>
