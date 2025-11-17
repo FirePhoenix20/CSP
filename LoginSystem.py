@@ -61,7 +61,7 @@ def login():
 
         if verify_user(username, password):
             session["user"] = username
-            return f"✅ Login successful! Welcome, {username}."
+            return render_template("Dashboard.html", username=username)
         elif not user_exists:
             error = "Create an account"
         else:
@@ -83,6 +83,9 @@ def create_account():
     return '''
     <html>
     <head>
+        <meta charset="UTF-8">
+        <title>Convo - Create Account</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         @font-face {
@@ -94,7 +97,7 @@ def create_account():
             }
             body {
                 background-color: rgb(3, 3, 3);
-                font-family: 'Roboto', sans-serif;
+                font-family: 'Inter', sans-serif;
                 color: #ffffff;
                 display: flex;
                 justify-content: center;
