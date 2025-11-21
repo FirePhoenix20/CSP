@@ -18,7 +18,7 @@
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             color: #333;
-            background: #0d002c;
+            background: linear-gradient(#0d002c, #311b63);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,11 +28,33 @@
             margin: 0;
         }
 
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 25px;
+            background: rgba(31, 31, 31, 0.363);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 200px;
+            border: 1px solid #35353538;
+            width: 2000px;
+            box-shadow: 0 4px 45px rgba(0, 0, 0, 0.1), 0 1px 15px #ffffff75 inset;
+            animation: borderPulse 6s infinite;
+        }
+
         h1 {
             position: absolute;
             margin-top: 10px;
             font-size: 5em;
-            top: 10px;
+            top: 150px;
             color: #ffffff;
             text-align: center;
             font-family: 'TitleText', sans-serif;
@@ -42,18 +64,68 @@
 
         .Rect {
             align-self: center;
-            width: 300px;
-            height: 150px;
-            background: linear-gradient(135deg, #4e2eff, #6a7bff);
-            border: white;
-            border-width: 4px;
+            width: 800px;
+            height: 350px;
+            display: block;
+            background: #252525;
+            border: 2px solid #7a5bc2;
             border-radius: 20px;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-left-color: #4e2eff;
-            border-right-color: #6a7bff;
+            margin-bottom: 50%;
+            box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);
             animation: zoomIn 0.3s ease-in-out;
         }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #2a2141a6;
+            font-size: 1.5em;
+            margin: 0 15px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            border: 2px solid #3b3b3b5b;
+            border-radius: 25px;
+            padding: 10px 30px;
+            left: 0px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #7a5bc2;
+            top: 60px;
+            transform: scaleX(1);
+            transform-origin: right;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            background-color: #3a2e5ab6;
+            border-color: #7a5bc2;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 2em;
+            color: #ffffff;
+            text-decoration: none;
+
+        }
+
         @keyframes zoomIn {
             from {
                 transform: scale(0.5);
@@ -65,11 +137,27 @@
             }
         }
 
+        @keyframes borderPulse {
+            0%, 80%, 100% {
+                border-color: rgba(179, 179, 179, 0.493); /* Default color */
+            }
+            40% {
+                border-color: #c2c2c2; /* Highlight color */
+            }
+        }
+
     </style>
 </head>
 <body>
     <h1>GET STARTED</h1>
     <div class="Rect"></div>
+    <nav class="navbar">
+        <ul class="nav-menu">
+            <li class="navm-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+            <li class="fas fa-eye"><a class="nav-link" href="/profile">Profile</a></li>
+        
+    </nav>>
+    
     
 </body>
 </html>
