@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Convo - Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@400;700&display=swap');
+
+    @font-face {
+      font-family: 'TitleText';
+      src: url('../fonts/MyCustomFont.woff2') format('woff2'),
+           url('../fonts/MyCustomFont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(#0d002c, rgb(41, 25, 73));
+        background-size: cover;
+        height: 200vh;
+        display: flex;
+        justify-content: flex-start; /* stack from top */
+        align-items: center;
+        flex-direction: column;
+        padding-top: 100px;
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    h1 {
+        margin: 10px 0;
+        font-size: 3em;
+        color: #6a3cd4;
+        text-align: center;
+        background: linear-gradient(to bottom, #6a3cd4, #cea7f3);
+        background-clip: border-box;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: 'Stack Sans Text', sans-serif;
+        animation: fadeIn 1s ease-in forwards;
+        animation-delay: 0s; /* first */
+    }
+
+    h2 {
+        margin: 25px 0;
+        font-size: 3em;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        text-shadow: 0 0 5px #ffffff;
+        opacity: 0;
+        animation: fadeIn 1s ease-in forwards;
+        animation-delay: 0.5s; /* after h1 */
+    }
+
+    .Rect {
+        margin-top: 20px;
+        width: 400px;
+        height: 450px;
+        background: rgb(3, 3, 3);
+        border: 2px solid #5625c9;
+        border-radius: 20px;
+        box-shadow: 0 4px 50px rgba(0, 0, 0, 0.75);
+        opacity: 0;
+        animation: fadeIn 1s ease-in forwards;
+        animation-delay: 1s; /* after h2 */
+    }
+
+    .Rect:hover {
+        background: #161616;
+        border-color: #c78bff;
+        transition: all 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Content -->
+  <h1>Solve the world's biggest problems.</h1>
+  <h2>Yes, it's completely free.</h2>
+  <div class="Rect"></div>
+</body>
+</html>
