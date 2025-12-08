@@ -23,6 +23,7 @@
         background: linear-gradient(#0d002c, rgb(41, 25, 73));
         background-size: cover;
         height: 200vh;
+        scroll-behavior: smooth;
         display: flex;
         justify-content: flex-start; /* stack from top */
         align-items: center;
@@ -42,6 +43,7 @@
         color: #6a3cd4;
         text-align: center;
         background: linear-gradient(to bottom, #6a3cd4, #cea7f3);
+        text-shadow: 0 0 5px linear-gradient(to bottom, #6a3cd4, #cea7f3);
         background-clip: border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -62,6 +64,23 @@
         animation-delay: 0.5s; /* after h1 */
     }
 
+    button {
+        margin-top: 30px;
+        padding: 15px 30px;
+        font-size: 1.2em;
+        color: #fff;
+        background: #6a3cd4;
+        border: none;
+        border-radius: 30px;
+        box-shadow: 0 4px 15px rgba(106, 60, 212, 0.6);
+        cursor: pointer;
+        transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    button:hover {
+        background: #cea7f3;
+        box-shadow: 0 6px 20px rgba(206, 167, 243, 0.8);
+    }
     .Rect {
         margin-top: 20px;
         width: 400px;
@@ -87,5 +106,6 @@
   <h1>Solve the world's biggest problems.</h1>
   <h2>Yes, it's completely free.</h2>
   <div class="Rect"></div>
+  <button type="button">Get Started</button>
 </body>
 </html>
