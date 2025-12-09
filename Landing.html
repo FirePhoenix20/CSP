@@ -5,7 +5,8 @@
   <title>Convo - Dashboard</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
     @font-face {
       font-family: 'TitleText';
@@ -39,23 +40,22 @@
 
     h1 {
         margin: 10px 0;
-        font-size: 3em;
+        font-size: 3.5em;
         color: #6a3cd4;
         text-align: center;
-        background: linear-gradient(to bottom, #6a3cd4, #cea7f3);
-        text-shadow: 0 0 5px linear-gradient(to bottom, #6a3cd4, #cea7f3);
+        background: linear-gradient(45deg, #9c3cd4, #6a3cd4);
         background-clip: border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-family: 'Stack Sans Text', sans-serif;
-        font-weight: 300;
+        font-family: 'Stack Sans text', sans-serif;
+        font-weight: 400;
         animation: fadeIn 1s ease-in forwards;
         animation-delay: 0s; /* first */
     }
 
     h2 {
-        margin: 25px 0;
-        font-size: 3em;
+        margin: 15px 0;
+        font-size: 3.5em;
         color: #ffffff;
         font-family: 'Inter', sans-serif;
         font-weight: 400;
@@ -65,27 +65,72 @@
         animation-delay: 0.5s; /* after h1 */
     }
 
-    button {
-        font-family: 'Inter', sans-serif;
-        font-weight: 400;
-        margin-top: 30px;
-        padding: 15px 30px;
-        font-size: 1.2em;
-        color: #fff;
-        background: #6a3cd4;
-        border: none;
-        border-radius: 30px;
-        box-shadow: 0 4px 15px rgba(106, 60, 212, 0.6);
-        cursor: pointer;
-        transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        animation: fadeIn 1s ease-in forwards;
-        opacity: 0;
-        animation-delay: 1s; /* after h1 */
+    input[type="text"]:focus {
+      box-shadow: 0 0 20px rgba(106, 60, 212, 0.8);
+    }
+
+    input[type="text"]::placeholder {
+      color: #555555;
+      text-align: left;
+      display: flex;
+      align-items: center;
+    }
+
+    .wrapper {
+      width: 400px;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .wrapper input {
+      position: absolute;
+      left: 0;
+      display: flex;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-right: 10px;
+      width: 100%;
+      font-size: 1em;
+      color: #ffffff;
+      background-color: #141414;
+      border: #222222 2px solid;
+      border-radius: 23px;
+      outline: none;
+      animation: fadeIn 1s ease-in forwards;
+      opacity: 0;
+      animation-delay: 0.8s; /* after h2 */
+    }
+
+    .wrapper button {
+      margin-top: 40px;
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 12px 24px;
+      background-color: #6a3cd4;
+      border-radius: 15px;
+
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 1em;
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 15px rgba(106, 60, 212, 0.6);
+      transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      animation: fadeIn 1s ease-in forwards;
+      opacity: 0;
+      animation-delay: 1s; /* after h1 */
     }
 
     button:hover {
-        background: linear-gradient(45deg, #cea7f3, #6a3cd4);
-        box-shadow: 0 0 20px rgba(206, 167, 243, 0.8);
+        background: #9c3cd4;
+        box-shadow: 0 0 25px rgba(156, 60, 212, 0.8);
     }
     
   </style>
@@ -94,6 +139,9 @@
   <!-- Main Content -->
   <h1>Solve the world's biggest problems.</h1>
   <h2>Yes, it's completely free.</h2>
-  <button type="button">Get Started</button>
+  <div class="wrapper">
+    <input type="text" placeholder="Enter your email address" />
+    <button type="button">Get Started</button>
+  </div>
 </body>
 </html>
