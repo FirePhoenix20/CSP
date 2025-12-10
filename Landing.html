@@ -6,7 +6,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@100..900&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@100..900&display=swap');
 
     @font-face {
       font-family: 'TitleText';
@@ -16,38 +16,34 @@
       font-style: normal;
     }
 
-    body {
-        margin: 0;
-        font-family: 'Inter', sans-serif;
-        font-weight: 700;
-        color: #fff;
-        /* Multiple backgrounds: 3 radial gradients on top, linear gradient at the bottom */
-        background:
-            /* Pink gradient (top left) */
-            radial-gradient(circle at 10% 10%, rgba(255, 0, 255, 0.397) 0%, rgba(255, 0, 255, 0) 25%),
-            /* Purple gradient (center) */
-            radial-gradient(circle at 50% 50%, rgba(49, 0, 128, 0.6) 0%, rgba(128, 0, 128, 0) 35%),
-            /* White gradient (bottom right) */
-            radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 20%),
-            /* Original linear gradient background */
-            linear-gradient(#0f0f0f, rgb(0, 0, 0));
-        background-size: cover;
-        height: 200vh;
-        scroll-behavior: smooth;
-        display: flex;
-        justify-content: flex-start; /* stack from top */
-        align-items: center;
-        flex-direction: column;
-        padding-top: 100px;
-    }
-
     /* Fade-in animation */
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
     }
 
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        /* Multiple backgrounds: 3 radial gradients on top, linear gradient at the bottom */
+        background-image: url('../IMAGES/background.jpg');
+        background-size: 5000px 2500px;
+        background-position: center;
+        backdrop-filter: blur(10px);
+        color: #fff;
+        height: 200vh;
+        display: flex;
+        justify-content: flex-start; /* stack from top */
+        align-items: center;
+        flex-direction: column;
+        padding-top: 100px;
+        animation: fadeIn 0.8s ease-in forwards;
+        animation-delay: 0s; /* first */
+    }
+
     h1 {
+        padding-top: 50px;
         margin: 10px 0;
         font-size: 3.5em;
         color: #6a3cd4;
@@ -56,10 +52,10 @@
         background-clip: border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-family: 'Stack Sans text', sans-serif;
-        font-weight: 400;
+        font-family: 'Lexend', sans-serif;
+        font-weight: 600;
         animation: fadeIn 1s ease-in forwards;
-        animation-delay: 0s; /* first */
+        animation-delay: 0s;
     }
 
     h2 {
@@ -109,6 +105,7 @@
       font-size: 1em;
       color: #ffffff;
       background-color: #141414;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
       border: #222222 2px solid;
       border-radius: 23px;
       outline: none;
@@ -146,7 +143,60 @@
         background: #9c3cd4;
         box-shadow: 0 0 30px rgba(156, 60, 212, 0.8);
     }
-    
+
+/* Log In button */
+#log-in {
+  cursor: pointer;
+  margin-top: -15%;
+  margin-left: 90%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 12px 48px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  color: #000000;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  animation: fadeIn 1s ease-in forwards;
+  opacity: 0;
+  animation-delay: 1s; /* after h1 */
+}
+
+#log-in:hover {
+    box-shadow: 0 0 30px rgba(231, 231, 231, 0.582);
+}
+
+.linkType_Button {
+  align-self: center;
+  cursor: pointer;
+  margin-top: -4%;
+  margin-bottom: 150px;
+  display: flex;
+  gap: 20px;
+}
+.linkType_Button button {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 12px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  color: #ffffff;
+  border: 2px transparent solid;
+  transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  animation: fadeIn 1s ease-in forwards;
+  opacity: 0;
+  animation-delay: 1s; /* after h1 */
+}
+
+.linkType_Button button:hover {
+    border: 2px solid #9c3cd4;
+    box-shadow: 0 0 10px rgba(156, 60, 212, 0.8) inset;
+}
+
   </style>
 </head>
 <body>
@@ -154,8 +204,13 @@
   <h1>Solve the world's biggest problems.</h1>
   <h2>Yes, it's completely free.</h2>
   <div class="wrapper">
-    <input type="text" placeholder="Enter your email address" />
-    <button type="button">Get Started</button>
+    <input type="email" placeholder="Enter your email address" />
+    <button id="get-started">Get Started</button>
+  </div>
+  <button id="log-in">Log In</button>
+  <div class="linkType_Button">
+    <button id="learn-more">Learn More</button>
+    <button id="contact-us">Contact Us</button>
   </div>
 </body>
 </html>
