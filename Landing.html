@@ -69,19 +69,6 @@
         animation-delay: 0.5s; /* after h1 */
     }
 
-    input[type="text"]:focus {
-      border-color: #9c3cd4;
-      box-shadow: 0 0 15px #6a3cd4 inset;
-    }
-
-    input[type="text"]::placeholder {
-      font-family: 'Inter', sans-serif;
-      color: #555555;
-      text-align: left;
-      display: flex;
-      align-items: center;
-    }
-
     .wrapper {
       width: 450px;
       max-width: 100%;
@@ -105,7 +92,7 @@
       font-size: 1em;
       color: #ffffff;
       background-color: #141414;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
       border: #222222 2px solid;
       border-radius: 23px;
       outline: none;
@@ -113,6 +100,18 @@
       opacity: 0;
       animation-delay: 0.8s; /* after h2 */
       transition: box-shadow, border-color 0.3s ease-in-out;
+    }
+    .wrapper input[type="email"]:focus {
+      border-color: #9c3cd4;
+      box-shadow: 0 0 15px #6a3cd4 inset;
+    }
+
+    .wrapper input::placeholder {
+      font-family: 'Inter', sans-serif;
+      color: #555555;
+      text-align: left;
+      display: flex;
+      align-items: center;
     }
 
     .wrapper button {
@@ -170,13 +169,13 @@
 
 .linkType_Button {
   align-self: center;
-  cursor: pointer;
   margin-top: -4%;
   margin-bottom: 150px;
   display: flex;
   gap: 20px;
 }
 .linkType_Button button {
+  cursor: pointer;
   background: transparent;
   backdrop-filter: blur(10px);
   border-radius: 15px;
