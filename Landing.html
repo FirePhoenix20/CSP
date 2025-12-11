@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=feature_search" rel="stylesheet" />
   <meta charset="UTF-8" />
-  <title>Convo | Fix The World</title>
+  <title>Convo | Group Up</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@100..900&display=swap');
@@ -15,7 +16,6 @@
       font-weight: normal;
       font-style: normal;
     }
-
     /* Fade-in animation */
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -26,7 +26,7 @@
         margin: 0;
         font-family: 'Inter', sans-serif;
         font-weight: 700;
-        /* Multiple backgrounds: 3 radial gradients on top, linear gradient at the bottom */
+        background-color: #222222;
         background-image: url('../IMAGES/background.jpg');
         background-size: cover;
         background-position: center;
@@ -43,7 +43,7 @@
     }
 
     h1 {
-        padding-top: 50px;
+        padding-top: 25px;
         margin: 10px 0;
         font-size: 3.5em;
         color: #6a3cd4;
@@ -67,6 +67,44 @@
         opacity: 0;
         animation: fadeIn 1s ease-in forwards;
         animation-delay: 0.5s; /* after h1 */
+    }
+
+    p {
+        margin: 40px 20px 30px 10px;
+        font-size: 1.25em;
+        color: #a7a7a7;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 300;
+        text-align: center;
+        max-width: 500px;
+        opacity: 0;
+        animation: fadeIn 1s ease-in forwards;
+        animation-delay: 0.75s; /* after h2 */
+    }
+
+    .material-symbols-outlined {
+      cursor: pointer;
+      position: fixed;
+      margin-top: -8vh;
+      margin-left: 96.25%;
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 500,
+        'GRAD' 0,
+        'opsz' 48;
+      font-size: 32px;
+      color: #a7a7a7;
+      display: flex;
+
+      animation: fadeIn 1s ease-in forwards;
+      opacity: 0;
+      animation-delay: 0.8s; /* after h2 */
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .material-symbols-outlined:hover {
+      transform: scale(1.125);
+      color: #e0e0e0;
     }
 
     .wrapper {
@@ -143,73 +181,83 @@
         box-shadow: 0 0 30px rgba(156, 60, 212, 0.8);
     }
 
-/* Log In button */
-#log-in {
-  cursor: pointer;
-  margin-top: -22.5vh;
-  margin-left: 90%;
-  background-color: #ffffff;
-  border-radius: 15px;
-  padding: 12px 48px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 500;
-  font-size: 1em;
-  color: #000000;
-  border: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-  transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  animation: fadeIn 1s ease-in forwards;
-  opacity: 0;
-  animation-delay: 1s; /* after h1 */
-}
+    /* Log In button */
+    #log-in {
+      cursor: pointer;
+      position: fixed;
+      margin-top: -8.25vh;
+      margin-left: 85%;
+      display: flex;
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 12px 48px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 1em;
+      color: #000000;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      animation: fadeIn 1s ease-in forwards;
+      opacity: 0;
+      animation-delay: 1s; /* after h1 */
+    }
 
-#log-in:hover {
-    box-shadow: 0 0 30px rgba(231, 231, 231, 0.582);
-}
+    #log-in:hover {
+        box-shadow: 0 0 30px rgba(231, 231, 231, 0.582);
+        transform: scale(1.05);
+    }
 
-.linkType_Button {
-  align-self: center;
-  margin-top: -4vh;
-  margin-bottom: 150px;
-  display: flex;
-  gap: 20px;
-}
-.linkType_Button button {
-  cursor: pointer;
-  background: transparent;
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 12px 24px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 1em;
-  color: #ffffff;
-  border: 2px transparent solid;
-  transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  animation: fadeIn 1s ease-in forwards;
-  opacity: 0;
-  animation-delay: 1s; /* after h1 */
-}
+    .linkType_Button {
+      align-self: center;
+      position: fixed;
+      margin-top: -7.5vh;
+      margin-bottom: 150px;
+      display: flex;
+      gap: 20px;
+    }
+    .linkType_Button button {
+      cursor: pointer;
+      background: transparent;
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 12px 24px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1em;
+      color: #ffffff;
+      border: 2px #ffffff28 solid;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.28) inset;
+      transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      animation: fadeIn 1s ease-in forwards;
+      opacity: 0;
+      animation-delay: 1s; /* after h1 */
+    }
 
-.linkType_Button button:hover {
-    border: 2px solid #9c3cd4;
-    box-shadow: 0 0 10px rgba(156, 60, 212, 0.8) inset;
-}
+    .linkType_Button button:hover {
+        border: 2px solid #9c3cd4;
+        box-shadow: 0 0 15px rgba(156, 60, 212, 0.8) inset;
+        transform: translateY(-2px);
+    }
 
   </style>
 </head>
 <body>
   <!-- Main Content -->
   <h1>Solve the world's biggest problems.</h1>
-  <h2>Yes, it's completely free.</h2>
+  <h2>You don't have to pay to start.</h2>
+  <p>Join millions of others and collaborate on the toughest problems the world is facing right now, all with one click.</p>
   <div class="wrapper">
     <input type="email" placeholder="Enter your email address" />
     <button id="get-started">Get Started</button>
   </div>
-  <button id="log-in">Log In</button>
+  <button id="log-in" title="Login To Convo">Log In</button>
   <div class="linkType_Button">
+    <button id="contact-us">Browse Convolutions</button>
     <button id="learn-more">Learn More</button>
     <button id="contact-us">Contact Us</button>
   </div>
+  <!-- Icon with hover effect -->
+<span class="material-symbols-outlined" title="Browse Convolutions">feature_search</span>
 </body>
 </html>
