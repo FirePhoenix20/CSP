@@ -27,7 +27,7 @@
         font-family: 'Inter', sans-serif;
         font-weight: 700;
         background-color: #222222;
-        background-image: url("{{ url_for('static', filename='background.jpg') }}");
+        background-image: url("../../IMAGES/background.jpg");
         background-size: cover;
         background-position: center;
         backdrop-filter: blur(10px);
@@ -249,7 +249,6 @@
       cursor: default;
       padding: 20px 40px;
       border: 2px #ffffff57 solid;
-      box-shadow: 0 0 30px rgba(231, 231, 231, 0.25) inset;
       backdrop-filter: blur(10px);
       border-radius: 30px;
       text-align: center;
@@ -260,7 +259,8 @@
     }
 
     .stat:hover {
-      box-shadow: 0 0 30px rgba(231, 231, 231, 0.582) inset;
+      border: 2px #9c3cd457 solid;
+      box-shadow: 0 0 30px rgba(156, 60, 212, 0.8) inset;
       backdrop-filter: blur(15px);
       transform: translateY(-5px);
     }
