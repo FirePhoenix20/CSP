@@ -27,7 +27,7 @@
         font-family: 'Inter', sans-serif;
         font-weight: 700;
         background-color: #222222;
-        background-image: url('../IMAGES/background.jpg');
+        background-image: url("{{ url_for('static', filename='background.jpg') }}");
         background-size: cover;
         background-position: center;
         backdrop-filter: blur(10px);
@@ -69,7 +69,7 @@
         animation-delay: 0.5s; /* after h1 */
     }
 
-    p {
+    label {
         margin: 40px 20px 30px 10px;
         font-size: 1.25em;
         color: #a7a7a7;
@@ -85,8 +85,8 @@
     .material-symbols-outlined {
       cursor: pointer;
       position: fixed;
-      margin-top: -8vh;
-      margin-left: 96.25%;
+      top: 20px;
+      right: 20px;
       font-variation-settings:
         'FILL' 0,
         'wght' 500,
@@ -185,8 +185,8 @@
     #log-in {
       cursor: pointer;
       position: fixed;
-      margin-top: -8.25vh;
-      margin-left: 80%;
+      top: 20px;
+      right: 80px;
       display: flex;
       background-color: #ffffff;
       border-radius: 15px;
@@ -211,8 +211,7 @@
     .linkType_Button {
       align-self: center;
       position: fixed;
-      margin-top: -7.5vh;
-      margin-bottom: 150px;
+      top: 25px;
       display: flex;
       gap: 20px;
     }
@@ -221,13 +220,12 @@
       background: transparent;
       backdrop-filter: blur(10px);
       border-radius: 15px;
-      padding: 12px 24px;
+      padding: 0.8em 1.5em;
       font-family: 'Inter', sans-serif;
       font-weight: 500;
       font-size: 1em;
       color: #ffffff;
-      border: 2px #ffffff28 solid;
-      box-shadow: 0 0 5px rgba(255, 255, 255, 0.28) inset;
+      border: 2px transparent solid;
       transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       animation: fadeIn 1s ease-in forwards;
       opacity: 0;
@@ -240,18 +238,64 @@
         transform: translateY(-2px);
     }
 
+    .stats {
+      position: fixed;
+      margin-top: 500px;
+      display: flex;
+      gap: 80px;
+    }
+
+    .stat {
+      cursor: default;
+      padding: 20px 40px;
+      border: 2px #ffffff57 solid;
+      box-shadow: 0 0 30px rgba(231, 231, 231, 0.25) inset;
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      text-align: center;
+      animation: fadeIn 1s ease-in forwards;
+      opacity: 0;
+      animation-delay: 1.2s; /* after buttons */
+      transition: all 0.3s ease-in-out;
+    }
+
+    .stat:hover {
+      box-shadow: 0 0 30px rgba(231, 231, 231, 0.582) inset;
+      backdrop-filter: blur(15px);
+      transform: translateY(-5px);
+    }
+
+    .stat h3 {
+      position: relative;
+      font-size: 2em;
+      color: #ffffff;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+    }
+
+    .stat p {
+      font-size: 1em;
+      color: #a7a7a7;
+      margin: 5px 0 0 0;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+    }
+
   </style>
 </head>
 <body>
   <!-- Main Content -->
   <h1>Solve the world's biggest problems.</h1>
   <h2>You don't have to pay to start.</h2>
-  <p>Join millions of others and collaborate on the toughest problems the world is facing right now, all with one click.</p>
+  <label>Join millions of others and collaborate on the toughest problems the world is facing right now, all with one click.</label>
   <div class="wrapper">
-    <input type="email" placeholder="Enter your email address" />
-    <button id="get-started">Get Started</button>
-  </div>
-  <button id="log-in" title="Login To Convo">Log In</button>
+  <form action="/get_started" method="POST">
+    <input type="email" name="email" placeholder="Enter your email address" required />
+    <button id="get-started" type="submit">Get Started</button>
+  </form>
+</div>
+  <a href="/login"><button id="log-in" title="Login To Convo">Log In</button></a>
   <div class="linkType_Button">
     <button id="contact-us" title="Browse other people's projects">Browse Convolutions</button>
     <button id="learn-more">Learn More</button>
@@ -259,5 +303,19 @@
   </div>
   <!-- Icon with hover effect -->
 <span class="material-symbols-outlined" title="Browse Convolutions">feature_search</span>
+<section class="stats">
+  <div class="stat fade-in">
+    <h3>10M+</h3>
+    <p>Users collaborating worldwide</p>
+  </div>
+  <div class="stat fade-in">
+    <h3>500K+</h3>
+    <p>Projects started</p>
+  </div>
+  <div class="stat fade-in">
+    <h3>95%</h3>
+    <p>Satisfaction rate</p>
+  </div>
+</section>
 </body>
 </html>
