@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convo | Browse</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@100..900&display=swap');
+
+        /* Define CSS variables for colors */
+        :root {
+            --bg-color: #ffffff;
+            /* Light mode background */
+            --text-color: #000000;
+            /* Light mode text color, also SVG fill */
+            --button-bg: #f0f0f0;
+            --card-bg: #f9f9f9;
+            --heart-color: #b0b0b0;
+            --heart-liked-color: #e0245e;
+        }
+
+        /* Dark mode colors, applied when the 'dark-mode' class is present on the body */
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --button-bg: #333333;
+            --card-bg: #1e1e1e;
+            --heart-color: #777;
+        }
+
+        /* General styles */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            font-family: "Inter", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-top: 80px; /* Space for fixed header */
+        }
+
+        h1 {
+            font-family: "Lexend", sans-serif;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            margin: 0;
+        }
+
+        .theme-toggle-button {
+            position: fixed;
+            background-color: var(--button-bg);
+            border: none;
+            padding: 10px;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* SVG styles: using currentColor allows the SVG to inherit the text color of its parent (the button) */
+        .theme-toggle-button svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Post Feed Styles */
+        .feed-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--button-bg);
+            margin-right: 10px;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .user-info span {
+            display: block;
+            font-size: 12px;
+            color: gray;
+        }
+
+        .post-content {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            padding: 0;
+        }
+        
+        .action-btn:hover svg {
+            opacity: 0.8;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            fill: var(--heart-color); /* Default color for all icons */
+            transition: fill 0.2s;
+        }
+
+        /* Specific styles for the heart when it's 'liked' */
+        .action-btn.liked .heart-icon {
+            fill: var(--heart-liked-color);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle-button" aria-label="Toggle theme" id="theme-toggle-btn">
+        <!-- Sun/Moon SVG inline -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="theme-icon">
+            <!-- Initial icon (e.g., Moon for light mode button, anticipating a toggle to dark) -->
+            <path
+                d="M12 3a9 9 0 1 0 9 9c0-.46-.05-.92-.13-1.36a5.5 5.5 0 0 1-5.5-5.5c0-.12.02-.24.04-.36A9.005 9.005 0 0 0 12 3m0 2.04v-.02c.8.02 1.6.21 2.3.56c-.73.49-1.2.98-1.57 1.6-.28.48-.48 1-.53 1.55l-.1.08c-.7-.05-1.3-.23-1.8-.5c-.6-.4-1-.9-1.3-1.5c-.3-.6-.4-1.2-.4-1.9a7 7 0 0 1 3.3-3.6z" />
+        </svg>
+    </button>
+    <h1>Covolutions</h1>
+
+    <div class="feed-container" id="feed-container">
+        <!-- Posts will be injected here via JavaScript -->
+    </div>
+
+
+    <script>
+        const toggleButton = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+        const themeIconPath = document.getElementById('theme-icon').querySelector('path');
+        const feedContainer = document.getElementById('feed-container');
+
+        // SVG path for a sun (light mode icon)
+        const sunPath = "M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12S6.48 2 12 2m0 2c-4.41 0-8 3.59-8 8s3.59 8 8 8s8-3.59 8-8s-3.59-8-8-8zM11 5h2v3h-2zm0 11h2v3h-2zm-3-8H5v2h3zm11 0h-3v2h3z";
+        // SVG path for a moon (dark mode icon)
+        const moonPath = "M12 3a9 9 0 1 0 9 9c0-.46-.05-.92-.13-1.36a5.5 5.5 0 0 1-5.5-5.5c0-.12.02-.24.04-.36A9.005 9.005 0 0 0 12 3m0 2.04v-.02c.8.02 1.6.21 2.3.56c-.73.49-1.2.98-1.57 1.6-.28.48-.48 1-.53 1.55l-.1.08c-.7-.05-1.3-.23-1.8-.5c-.6-.4-1-.9-1.3-1.5c-.3-.6-.4-1.2-.4-1.9a7 7 0 0 1 3.3-3.6z";
+        // SVG path for a filled heart
+        const heartFilledPath = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+        // SVG path for an outlined heart
+        const heartOutlinedPath = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 1.95-.55 3.72-1.5 5.25L12 21.35zM7.5 5C5.55 5 4 6.55 4 8.5c0 2.37 2.35 4.51 6.55 8.16L12 18.12l1.45-1.24C17.65 13.01 20 10.87 20 8.5C20 6.55 18.45 5 16.5 5c-1.74 0-3.41.81-4.5 2.09C10.91 5.81 9.24 5 7.5 5z";
+
+        function toggleTheme() {
+            const isDarkMode = body.classList.toggle('dark-mode');
+            if (isDarkMode) {
+                themeIconPath.setAttribute('d', sunPath);
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIconPath.setAttribute('d', moonPath);
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeIconPath.setAttribute('d', sunPath);
+            } else {
+                // Default to light mode icon if no preference or light is saved
+                themeIconPath.setAttribute('d', moonPath);
+            }
+        }
+
+        function applySystemTheme() {
+            if (!localStorage.getItem('theme')) {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    body.classList.add('dark-mode');
+                    themeIconPath.setAttribute('d', sunPath);
+                }
+            }
+        }
+        
+        // Function to handle the heart button click
+        function toggleLike(event) {
+            const button = event.currentTarget;
+            const isLiked = button.classList.toggle('liked');
+            const heartPathElement = button.querySelector('.heart-icon');
+            
+            if (isLiked) {
+                heartPathElement.setAttribute('d', heartFilledPath);
+            } else {
+                heartPathElement.setAttribute('d', heartOutlinedPath);
+            }
+        }
+
+        // Function to create a post HTML element
+        function createPost(user, handle, time, content, likes) {
+            const postCard = document.createElement('div');
+            postCard.classList.add('post-card');
+
+            postCard.innerHTML = `
+                <div class="post-header">
+                    <div class="user-avatar"></div>
+                    <div class="user-info">
+                        <strong>${user}</strong>
+                        <span>@${handle} · ${time}</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    ${content}
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn comment-btn">
+                        <!-- Comment SVG -->
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm.927-12h1.5l-2.651 3.822V11h1.127a.927.927 0 0 1 .927.927v.14a.927.927 0 0 1-.927.927H11v1h2.5v1H11v1h2v1h-3.093c-.51 0-.907-.35-.907-.86V13h-.5v-1h.5v-.5c0-.28.22-.5.5-.5h2.127l-2.651-3.822V8h1.127c.51 0 .907.35.907.86V9h.5v-.5c0-.28-.22-.5-.5-.5z"></path></svg>
+                        <span>${likes + 3}</span>
+                    </button>
+                    <button class="action-btn like-btn">
+                        <!-- Heart SVG -->
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path class="heart-icon" d="${heartOutlinedPath}"></path>
+                        </svg>
+                        <span>${likes}</span>
+                    </button>
+                    <button class="action-btn share-btn">
+                        <!-- Share SVG -->
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.3 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"></path></svg>
+                        <span>Share</span>
+                    </button>
+                </div>
+            `;
+            // Attach event listener to the heart button specifically after innerHTML is set
+            postCard.querySelector('.like-btn').addEventListener('click', toggleLike);
+
+            return postCard;
+        }
+
+        // Sample data
+        const postsData = [
+            { user: 'Alice', handle: 'wonder_dev', time: '2m', content: 'Just built the fundamental dark mode toggle using CSS variables! It is surprisingly clean and effective. Loving modern front-end capabilities.', likes: 42 },
+            { user: 'Bob', handle: 'code_builder', time: '1h', content: 'Thinking about integrating more SVGs for UI elements. They are lightweight, scalable, and easy to style with CSS `fill: currentColor;`. The results speak for themselves.', likes: 120 },
+            { user: 'Charlie', handle: 'design_guru', time: '4h', content: 'Design systems are everything. Consistency in spacing, typography, and color schemes makes all the difference in user experience.', likes: 88 },
+        ];
+
+        // Function to render posts
+        function renderPosts() {
+            postsData.forEach(post => {
+                const postElement = createPost(post.user, post.handle, post.time, post.content, post.likes);
+                feedContainer.appendChild(postElement);
+            });
+        }
+
+        // Initialize functionality
+        toggleButton.addEventListener('click', toggleTheme);
+        applySavedTheme();
+        applySystemTheme();
+        renderPosts();
+    </script>
+</body>
+
+</html>
