@@ -1,7 +1,9 @@
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, session
+import os
+from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 
-app = Flask(__name__)
+# We set the template folder to 'templates' explicitly
+app = Flask(__name__, template_folder='templates')
 app.secret_key = "replace_this_with_a_real_secret_key"
 
 # --- DATABASE SETUP ---
@@ -18,7 +20,15 @@ def init_db():
     conn.commit()
     conn.close()
 
-# --- ADD USER ---
+# --- HELPER FUNCTIONS ---
+def verify_user(username, password):
+    conn = sqlite3.connect("details.db")
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+    user = c.fetchone()
+    conn.close()
+    return user is not None
+
 def add_user(username, password):
     conn = sqlite3.connect("details.db")
     c = conn.cursor()
@@ -31,18 +41,12 @@ def add_user(username, password):
     conn.close()
     return result
 
-# --- CHECK LOGIN ---
-def verify_user(username, password):
-    conn = sqlite3.connect("details.db")
-    c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
-    user = c.fetchone()
-    conn.close()
-    return user is not None
-
 # --- ROUTES ---
+
 @app.route("/")
 def home():
+    if "user" in session:
+        return redirect(url_for("dashboard"))
     return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])
@@ -52,154 +56,62 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        # check if username exists (for distinct message)
+        if verify_user(username, password):
+            session["user"] = username
+            return redirect(url_for("dashboard"))
+        
+        # Check if user exists just for the error message
         conn = sqlite3.connect("details.db")
         c = conn.cursor()
         c.execute("SELECT 1 FROM users WHERE username = ?", (username,))
         user_exists = c.fetchone() is not None
         conn.close()
 
-        if verify_user(username, password):
-            session["user"] = username
-            return render_template("Dashboard.html", username=username)
-        elif not user_exists:
+        if not user_exists:
             error = "Create an account"
         else:
             error = "Incorrect credentials"
 
+    # Note: Assuming you have a Login.html in templates/Login.html
+    # If Login.html is also in Dashboard, change to "Dashboard/Login.html"
     return render_template("Login.html", error=error)
 
-@app.route("/create_account.html", methods=["GET", "POST"])
+@app.route("/dashboard")
+def dashboard():
+    if "user" in session:
+        # POINTING TO: templates/Dashboard/dashboard.html
+        return render_template("Dashboard/dashboard.html", username=session["user"])
+    return redirect(url_for("login"))
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
+@app.route("/create_account", methods=["GET", "POST"])
 def create_account():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-
         if add_user(username, password):
             return redirect(url_for("login"))
-        return render_template("username_exists.html", error="Username already exists")
-
-    # Normal (non-error) page
+        return "Username already exists <a href='/create_account'>Try again</a>"
+    
+    # Simple HTML for creation
     return '''
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Convo - Create Account</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-        @font-face {
-            font-family: 'Inter'; /* Give your font a name */
-            src: url('../fonts/MyCustomFont.woff2') format('woff2'), /* Path to your font file */
-                 url('../fonts/MyCustomFont.woff') format('woff');
-            font-weight: normal; /* Define font weight if applicable */
-            font-style: normal; /* Define font style if applicable */
-            }
-            body {
-                background-color: rgb(3, 3, 3);
-                font-family: 'Inter', sans-serif;
-                color: #ffffff;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                flex-direction: column;
-            }
-            form {
-                background: rgba(31, 31, 31, 0.9);
-                padding: 30px;
-                border-radius: 25px;
-                border: 3px solid #272727;
-                width: 400px;
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            
-            h1 {
-                font-family: 'Inter', sans-serif;
-                text-align: center;
-                top: 10px;
-                color: #ffffff;
-            }
-
-            }
-            label {
-                font-family: 'Inter', sans-serif;
-                display: block;
-                margin-bottom: 10px;
-                color: #e0e0e0;
-                font-size: 15px;
-                text-align: left;
-            }
-            input[type="text"],
-            input[type="password"] {
-                font-family: 'Inter', sans-serif;
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                margin-right: 10px;
-                border: 2px solid #353535;
-                border-radius: 25px;
-                background-color: #222222;
-                color: #ffffff;
-                transition: border-color 0.3s;
-            }
-            input:focus {
-                border: 2px solid #555555;
-                outline: none;
-            }
-            button {
-                font-family: 'Inter', sans-serif;
-                width: 100%;
-                padding: 12px;
-                border: none;
-                border-radius: 25px;
-                background-color: #5625c9;
-                color: #ffffff;
-                font-size: 16px;
-                cursor: pointer;
-                margin-top: 50px;
-                margin-bottom: 10px;
-                transition: background-color 0.3s;
-            }
-
-            button[type="button"] {
-            background-color: #222222;
-            color: #ffffff;
-            border: 2px solid #353535;
-            margin-top: 10px;
-            }
-
-            button:hover {
-                background-color: #6a3cd4;
-                box-shadow: 0 4px 30px #6a3cd4a0;);
-            }
-            a {
-                font-family: 'Inter', sans-serif;
-                text-align: center;
-                display: block;
-                margin-top: 15px;
-                color: #ffffff;
-                text-decoration: none;
-                font-size: 14px;
-            }
-            a:hover {
-                text-decoration: underline;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Create Account</h1>
-        <form method="POST">
-            <label>New Username:</label>
-            <input type="text" name="username" required><br>
-            <label>New Password:</label>
-            <input type="password" name="password" required><br>
-            <button type="submit">Create Account</button>
-            <a href="/login">Back to Login</a>
-        </form>
-    </body>
-    </html>
+    <form method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Create Account</button>
+    </form>
     '''
+
+# --- SPECIAL ROUTE FOR JS ---
+# This allows Flask to serve script.js from the templates/Dashboard folder
+@app.route('/dashboard_assets/<path:filename>')
+def serve_dashboard_assets(filename):
+    # This points to templates/Dashboard
+    return send_from_directory(os.path.join(app.root_path, 'templates', 'Dashboard'), filename)
 
 if __name__ == "__main__":
     init_db()
