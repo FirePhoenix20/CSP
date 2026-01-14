@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convo | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <style>
+        /* --- IMPORTS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap');
+
+        /* --- VARIABLES --- */
+        :root {
+            --bg-body: #050505;
+            --bg-sidebar: #0f0f0f;
+            --bg-card: #141414;
+            --bg-input: #1f1f1f;
+            --border-color: #2a2a2a;
+            --accent-color: #9c3cd4;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --danger-color: #ff4d4d;
+        }
+
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; outline: none; }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; overflow-x: hidden; display: flex; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 280px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color);
+            height: 100vh; position: fixed; left: 0; top: 0; padding: 24px; display: flex; flex-direction: column;
+            z-index: 1000; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .sidebar.closed { transform: translateX(-100%); }
+        
+        .brand-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .brand-logo { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.2rem; background: linear-gradient(90deg, #fff, #a1a1a1); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .icon-btn { cursor: pointer; color: var(--text-muted); background: none; border: none; padding: 5px; border-radius: 50%; }
+        .icon-btn:hover { color: var(--text-main); background-color: rgba(255,255,255,0.1); }
+
+        .sidebar-search { background-color: var(--bg-input); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; margin-bottom: 30px; border: 1px solid transparent; transition: all 0.3s; }
+        .sidebar-search:focus-within { border-color: var(--accent-color); }
+        .sidebar-search input { background: transparent; border: none; color: var(--text-main); width: 100%; font-family: 'Inter', sans-serif; margin-left: 10px; font-size: 0.9rem; }
+
+        .nav-label { font-size: 0.75rem; text-transform: uppercase; color: #555; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+
+        .sidebar-item { display: flex; align-items: center; padding: 12px 16px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-weight: 500; font-size: 0.95rem; transition: all 0.2s ease; text-decoration: none; }
+        .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--text-main); }
+        .sidebar-item.active { background-color: rgba(156, 60, 212, 0.15); color: var(--accent-color); }
+        .sidebar-item .material-symbols-outlined { margin-right: 12px; font-size: 22px; }
+
+        /* Logout Button */
+        .logout-btn { margin-top: auto; color: var(--danger-color); }
+        .logout-btn:hover { background-color: rgba(255, 77, 77, 0.1); color: #ff6b6b; }
+
+        /* --- CONTENT --- */
+        .content { margin-left: 280px; width: calc(100% - 280px); padding: 40px; transition: margin-left 0.4s, width 0.4s; min-height: 100vh; }
+        .content.expanded { margin-left: 0; width: 100%; padding: 40px 10%; }
+        .view-container { max-width: 1000px; margin: 0 auto; animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        header { margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+        h1 { font-family: 'Manrope', sans-serif; font-size: 2.5rem; margin: 0; font-weight: 700; }
+        .sub-header { color: var(--text-muted); font-size: 1rem; margin-top: 5px; }
+        .date-badge { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+
+        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
+        .card:hover { border-color: #444; transform: translateY(-2px); }
+        .card-left { display: flex; align-items: center; gap: 20px; }
+        .icon-box { background: #252525; width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .icon-box svg, .icon-box span { fill: var(--text-main); color: var(--text-main); width: 24px; height: 24px; font-size: 24px; }
+        .card-info h3 { margin: 0 0 4px 0; font-size: 1.1rem; }
+        .card-info p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+        .card-action { background-color: #1f1f1f; color: white; border: 1px solid #333; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .card-action:hover { background-color: var(--accent-color); border-color: var(--accent-color); }
+        .card-action.danger:hover { background-color: var(--danger-color); border-color: var(--danger-color); }
+
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .project-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 15px; transition: 0.2s; }
+        .project-card:hover { border-color: var(--accent-color); }
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: rgba(156, 60, 212, 0.2); color: var(--accent-color); width: fit-content; }
+
+        .floating-menu-btn { position: fixed; top: 25px; left: 25px; z-index: 500; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 16px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; cursor: pointer; transition: all 0.3s; }
+        .floating-menu-btn.visible { opacity: 1; pointer-events: auto; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <div class="brand-header">
+            <div class="brand-logo">Convo.</div>
+            <button class="icon-btn" onclick="toggleLayout()">
+                <span class="material-symbols-outlined">menu_open</span>
+            </button>
+        </div>
+
+        <div class="sidebar-search">
+            <span class="material-symbols-outlined" style="color: #65676b">search</span>
+            <input type="text" id="searchInput" placeholder="Search..." onkeyup="handleSearch()" />
+        </div>
+
+        <div class="nav-label">Menu</div>
+        
+        <div class="sidebar-item active" onclick="switchTab('dashboard', this)">
+            <span class="material-symbols-outlined">dashboard</span>
+            Dashboard
+        </div>
+        <div class="sidebar-item" onclick="switchTab('projects', this)">
+            <span class="material-symbols-outlined">folder_open</span>
+            Projects
+        </div>
+        <div class="sidebar-item" onclick="switchTab('settings', this)">
+            <span class="material-symbols-outlined">settings</span>
+            Settings
+        </div>
+
+        <a href="/logout" class="sidebar-item logout-btn">
+            <span class="material-symbols-outlined">logout</span>
+            Logout
+        </a>
+    </div>
+
+    <div class="content" id="content">
+        <div class="floating-menu-btn" id="floatingBtn" onclick="toggleLayout()">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+
+        <div id="dashboard-view" class="view-container">
+            <header>
+                <div>
+                    <h1 id="greeting">Welcome Back</h1>
+                    <div class="sub-header">Logged in as <span id="username" style="color: white; font-weight: 700;">{{ username }}</span></div>
+                </div>
+                <div class="date-badge" id="date-display">...</div>
+            </header>
+
+            <div class="nav-label" style="margin-bottom: 15px;">Overview</div>
+            <div id="dashboard-feed"></div>
+        </div>
+
+        <div id="projects-view" class="view-container hidden">
+            <header>
+                <h1>Active Projects</h1>
+                <div class="sub-header">Manage your ongoing development tasks</div>
+            </header>
+            <div class="grid-layout" id="projects-grid"></div>
+        </div>
+
+        <div id="settings-view" class="view-container hidden">
+            <header><h1>Settings</h1></header>
+            <div class="card">
+                <div class="card-left">
+                    <div class="icon-box"><span class="material-symbols-outlined">person</span></div>
+                    <div class="card-info">
+                        <h3>Profile Settings</h3>
+                        <p>Change your username and password</p>
+                    </div>
+                </div>
+                <button class="card-action">Edit</button>
+            </div>
+            
+            <div class="card" style="border-color: #ff4d4d20;">
+                <div class="card-left">
+                    <div class="icon-box" style="background: rgba(255, 77, 77, 0.1);"><span class="material-symbols-outlined" style="color: #ff4d4d;">logout</span></div>
+                    <div class="card-info">
+                        <h3>Sign Out</h3>
+                        <p>Log out of your account on this device</p>
+                    </div>
+                </div>
+                <button class="card-action danger" onclick="window.location.href='/logout'">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('serve_dashboard_assets', filename='script.js') }}"></script>
+</body>
+</html>
