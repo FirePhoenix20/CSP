@@ -1,45 +1,46 @@
 import sqlite3
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
+from werkzeug.security import generate_password_hash, check_password_hash
 
-# We set the template folder to 'templates' explicitly
 app = Flask(__name__, template_folder='templates')
-app.secret_key = "replace_this_with_a_real_secret_key"
+app.secret_key = "convo_super_secret_key_123"
+DB_PATH = "details.db"
 
 # --- DATABASE SETUP ---
 def init_db():
-    conn = sqlite3.connect("details.db")
-    c = conn.cursor()
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-        )
-    """)
-    conn.commit()
-    conn.close()
+    with sqlite3.connect(DB_PATH) as conn:
+        c = conn.cursor()
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL
+            )
+        """)
+        conn.commit()
 
 # --- HELPER FUNCTIONS ---
 def verify_user(username, password):
-    conn = sqlite3.connect("details.db")
-    c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
-    user = c.fetchone()
-    conn.close()
-    return user is not None
+    with sqlite3.connect(DB_PATH) as conn:
+        c = conn.cursor()
+        c.execute("SELECT password FROM users WHERE username=?", (username,))
+        row = c.fetchone()
+        if row:
+            # check_password_hash compares the typed password with the stored hash
+            return check_password_hash(row[0], password)
+    return False
 
 def add_user(username, password):
-    conn = sqlite3.connect("details.db")
-    c = conn.cursor()
+    hashed_pw = generate_password_hash(password)
     try:
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
-        conn.commit()
-        result = True
+        with sqlite3.connect(DB_PATH) as conn:
+            c = conn.cursor()
+            c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_pw))
+            conn.commit()
+            return True
     except sqlite3.IntegrityError:
-        result = False
-    conn.close()
-    return result
+        return False
 
 # --- ROUTES ---
 
@@ -53,33 +54,44 @@ def home():
 def login():
     error = None
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        username = request.form.get("username")
+        password = request.form.get("password")
 
         if verify_user(username, password):
             session["user"] = username
             return redirect(url_for("dashboard"))
         
-        # Check if user exists just for the error message
-        conn = sqlite3.connect("details.db")
-        c = conn.cursor()
-        c.execute("SELECT 1 FROM users WHERE username = ?", (username,))
-        user_exists = c.fetchone() is not None
-        conn.close()
+        # Determine specific error for the UI
+        with sqlite3.connect(DB_PATH) as conn:
+            c = conn.cursor()
+            c.execute("SELECT 1 FROM users WHERE username = ?", (username,))
+            user_exists = c.fetchone() is not None
 
-        if not user_exists:
-            error = "Create an account"
+        error = "Incorrect password." if user_exists else "Account not found. Please sign up."
+
+    return render_template("login.html", error=error)
+
+@app.route("/create_account", methods=["GET", "POST"])
+def create_account():
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        
+        if not username or not password:
+            error = "Fields cannot be empty."
+        elif add_user(username, password):
+            # Redirect to the 'login' function after successful creation
+            return redirect(url_for("login"))
         else:
-            error = "Incorrect credentials"
-
-    # Note: Assuming you have a Login.html in templates/Login.html
-    # If Login.html is also in Dashboard, change to "Dashboard/Login.html"
-    return render_template("Login.html", error=error)
+            error = "Username already exists."
+    
+    return render_template("create_account.html", error=error)
 
 @app.route("/dashboard")
 def dashboard():
     if "user" in session:
-        # POINTING TO: templates/Dashboard/dashboard.html
+        # Assumes file is at templates/Dashboard/dashboard.html
         return render_template("Dashboard/dashboard.html", username=session["user"])
     return redirect(url_for("login"))
 
@@ -88,29 +100,9 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
-@app.route("/create_account", methods=["GET", "POST"])
-def create_account():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        if add_user(username, password):
-            return redirect(url_for("login"))
-        return "Username already exists <a href='/create_account'>Try again</a>"
-    
-    # Simple HTML for creation
-    return '''
-    <form method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Create Account</button>
-    </form>
-    '''
-
-# --- SPECIAL ROUTE FOR JS ---
-# This allows Flask to serve script.js from the templates/Dashboard folder
+# --- ASSETS ROUTE ---
 @app.route('/dashboard_assets/<path:filename>')
 def serve_dashboard_assets(filename):
-    # This points to templates/Dashboard
     return send_from_directory(os.path.join(app.root_path, 'templates', 'Dashboard'), filename)
 
 if __name__ == "__main__":
