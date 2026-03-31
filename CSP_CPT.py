@@ -1,8 +1,6 @@
 ## AP CSP:- Credit Score Simulation
 
-import random
-
-# Manages the complexity of different bank rules.
+# List manages the storage of credit score ranges and where the user's score fits.
 # Each dictionary represents a "Level" of credit score health.
 loan_tiers = [
     {"min_score": 300, "max_score": 579, "base_rate": 18.5, "label": "Poor"},
@@ -13,7 +11,7 @@ loan_tiers = [
 ]
 
 # Algorithm which simulates credit score calculation based on various factors.
-def get_bank_decision(credit_score, amount):
+def calculate_interest(credit_score, amount):
     final_rate = 0
     tier_name = ""
 
@@ -33,7 +31,7 @@ def get_bank_decision(credit_score, amount):
 
 # Generate a random credit score for the user using imported "random" module.
 user_score = 0
-time_period = 0
+time_period = 0.0
 user_request = 0.0
 
 while user_score < 300 or user_score > 850:
@@ -46,12 +44,12 @@ while type(user_request) != float or user_request <= 0:
     if type(user_request) != float or user_request <= 0:
         print("Invalid loan amount. Please enter a positive number.")
 
-while type(time_period) != int or time_period <= 0:
-    time_period = int(input("Enter the loan term in years (only numbers): "))
-    if type(time_period) != int or time_period <= 0:
-        print("Invalid loan term. Please enter a positive integer.")
+while type(time_period) != float or time_period <= 0:
+    time_period = float(input("Enter the loan term in years (only numbers): "))
+    if type(time_period) != float or time_period <= 0:
+        print("Invalid loan term. Please enter a positive number.")
 
-category, rate = get_bank_decision(user_score, user_request)
+category, rate = calculate_interest(user_score, user_request)
 
 # Use the compound interest formula (A = P(1 + r/n)^(nt)) to calculate the total amount owed to the bank after the loan term.
 print(f"-" * 100)
